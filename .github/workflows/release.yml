@@ -1,0 +1,42 @@
+name: Release
+on:
+  push:
+    tags:
+      - '*'
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    container: mcr.microsoft.com/devcontainers/rust:1-1-bullseye
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+      - name: Install just
+        uses: extractions/setup-just@v3
+        with:
+          just-version: 1.42.4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Build Debian
+        run: just ci-release
+      - name: Upload Debian packages
+        uses: softprops/action-gh-release@v2
+        with:
+          files: target/debian/*.deb
+      - name: Upload apt repo
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'apt-repo/public/'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+    

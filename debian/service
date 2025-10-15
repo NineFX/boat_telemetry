@@ -1,0 +1,13 @@
+[Unit]
+Description=CollectSecurityTelemetry
+After=multi-user.target
+
+[Service]
+ExecStart=/usr/local/bin/boat_telemetry
+Restart=always
+RestartSec=15s
+User=root
+Group=root 
+
+[Install]
+WantedBy=multi-user.target

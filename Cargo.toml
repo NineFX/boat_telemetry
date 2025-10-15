@@ -1,0 +1,31 @@
+[package]
+name = "boat_telemetry"
+version = "0.1.0"
+edition = "2024"
+description = "A simple service for Raspberry Pi that calls a vulnerable binary"
+
+[dependencies]
+sysinfo = "0.37.2"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+[dev-dependencies]
+cargo-deb = "3.3.0"
+
+[package.metadata.deb]
+revision = "1"
+maintainer = "Drew Varner <drew.varner@ninefx.com>"
+copyright = "2025, Drew Varner <drew.varner@ninefx.com>"
+extended-description = """\
+A simple service for Raspberry Pi that records telemetry on a Blue Boat  \
+"""
+depends = "libc6, libstdc++6, libgcc-s1" 
+section = "utility"
+priority = "optional"
+maintainer-scripts = "debian/"
+systemd-units = { enable = true }
+assets = [
+    # target/release path is special, and gets replaced by cargo-deb with the actual target dir path.
+    { source = "target/release/boat_telemetry", dest = "/usr/local/bin/", mode = "755" },
+    { source = "README.md", dest = "/usr/share/doc/boat_telemetry/README", mode = "644" },
+]

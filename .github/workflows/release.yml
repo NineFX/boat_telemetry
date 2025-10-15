@@ -12,8 +12,6 @@ concurrency:
   cancel-in-progress: false
 jobs:
   release:
-    environment:
-      name: github-pages
     runs-on: ubuntu-latest
     container: mcr.microsoft.com/devcontainers/rust:1-1-bullseye
     steps:

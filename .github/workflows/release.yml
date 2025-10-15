@@ -12,6 +12,8 @@ concurrency:
   cancel-in-progress: false
 jobs:
   release:
+    environment:
+      - name: github-pages
     runs-on: ubuntu-latest
     container: mcr.microsoft.com/devcontainers/rust:1-1-bullseye
     steps:
@@ -31,7 +33,7 @@ jobs:
       - name: Upload Debian packages
         uses: softprops/action-gh-release@v2
         with:
-          files: target/debian/*.deb
+          files: toy_service/target/debian/*.deb
       - name: Upload apt repo
         uses: actions/upload-pages-artifact@v3
         with:

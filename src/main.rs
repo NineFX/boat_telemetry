@@ -7,7 +7,7 @@ use std::time::SystemTime;
 use sysinfo::System;
 
 const LOG_PATH: &str = "/var/log/boat_telemetry.log";
-const SLEEP_SECONDS: u64 = 5;
+const SLEEP_SECONDS: u64 = 60;
 
 #[derive(Debug, Serialize)]
 struct ProcessTelemetry {
